@@ -9,7 +9,7 @@ import torch.multiprocessing as multiprocessing
 
 from torch._C import _set_worker_signal_handlers
 from torch.utils.data.dataloader import DataLoader
-from torch.utils.data.dataloader import _DataLoaderIter
+from torch.utils.data.dataloader import _SingleProcessDataLoaderIter as _DataLoaderIter
 from torch.utils.data import _utils
 
 if sys.version_info[0] == 2:
