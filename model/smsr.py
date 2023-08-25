@@ -230,8 +230,15 @@ class SMB(nn.Module):
         # add bias (bias is only used in the last 1x1 conv in our SMB for simplicity)
         if index == 4:
             fea_d += self.bias.view(1, -1, 1, 1)
-        print(f'dense {index}: {fea_d.size()}')
-        print(f'sparse {index}: {fea_s.size()}')
+        if fea_d is not None:
+            print(f'dense {index}: {fea_d.size()}')
+        else: 
+            print(f'dense {index}: {0}')
+        if fea_s is not None:
+            print(f'sparse {index}: {fea_s.size()}')
+        else:
+            print(f'sparse {index}: {0}')        
+                
         return fea_d, fea_s
 
     def forward(self, x):
