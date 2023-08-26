@@ -195,7 +195,7 @@ class SMB(nn.Module):
                 # dense to sparse
                 fea_d2s = torch.mm(self.kernel_d2s[index], self._mask_select(fea_dense, k))
                 print(f"kernel_d2s[{index}]: {self.kernel_d2s[index].size()}")
-                print(f"spatial mask_{k}: {self._mask_select(fea_dense, k)}")
+                print(f"spatial mask_{k}: {self._mask_select(fea_dense, k).size()}")
                 print(f"fea_d2s {index}: {fea_d2s.size()}")
 
         # sparse input
