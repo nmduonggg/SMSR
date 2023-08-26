@@ -189,7 +189,7 @@ class SMB(nn.Module):
                     fea_col = fea_dense.view(self.d_in_num[index], -1)
                     fea_d2d = torch.mm(self.kernel_d2d[index].view(self.d_out_num[index], -1), fea_col)
                     fea_d2d = fea_d2d.view(1, self.d_out_num[index], fea_dense.size(2), fea_dense.size(3))
-                print(f"fea_d2d {index}: {fea_d2s.size()}")
+                print(f"fea_d2d {index}: {fea_d2d.size()}")
 
             if self.s_out_num[index] > 0:
                 # dense to sparse
