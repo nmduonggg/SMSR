@@ -189,10 +189,12 @@ class SMB(nn.Module):
                     fea_col = fea_dense.view(self.d_in_num[index], -1)
                     fea_d2d = torch.mm(self.kernel_d2d[index].view(self.d_out_num[index], -1), fea_col)
                     fea_d2d = fea_d2d.view(1, self.d_out_num[index], fea_dense.size(2), fea_dense.size(3))
+                print(f"fea_d2d {index}: {fea_d2s.size()}")
 
             if self.s_out_num[index] > 0:
                 # dense to sparse
                 fea_d2s = torch.mm(self.kernel_d2s[index], self._mask_select(fea_dense, k))
+                print(f"fea_d2s {index}: {fea_d2s.size()}")
 
         # sparse input
         if self.s_in_num[index] > 0:
@@ -201,6 +203,8 @@ class SMB(nn.Module):
                 fea_s2ds = torch.mm(self.kernel_s[index], fea_sparse)
             else:
                 fea_s2ds = torch.mm(self.kernel_s[index], F.pad(fea_sparse, [1,0,0,0])[:, self.idx_s2s].view(self.s_in_num[index] * k * k, -1))
+            print(f"fea_s2s {index}: {fea_s2ds[-self.s_out_num[index], :].size()}")
+            print(f"fea_s2d {index}: {fea_s2ds[self.d_out_num[index]:, :].size()}")
 
         # fusion
         if self.d_out_num[index] > 0:
@@ -230,6 +234,7 @@ class SMB(nn.Module):
         # add bias (bias is only used in the last 1x1 conv in our SMB for simplicity)
         if index == 4:
             fea_d += self.bias.view(1, -1, 1, 1)
+
         if fea_d is not None:
             print(f'dense {index}: {fea_d.size()}')
         else: 
@@ -238,7 +243,7 @@ class SMB(nn.Module):
             print(f'sparse {index}: {fea_s.size()}')
         else:
             print(f'sparse {index}: {0}')        
-                
+
         return fea_d, fea_s
 
     def forward(self, x):
