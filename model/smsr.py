@@ -217,11 +217,15 @@ class SMB(nn.Module):
                 if self.s_in_num[index] > 0:
                     fea_d2d[0, :, self.h_idx_1x1, self.w_idx_1x1] += fea_s2ds[:self.d_out_num[index], :]
                     fea_d = fea_d2d
+                    print(fea_d2d[0, :, self.h_idx_1x1, self.w_idx_1x1].size())
+                    print(fea_s2ds[:self.d_out_num[index], :].size())
                 else:
                     fea_d = fea_d2d
+                    print(fea_d.size())
             else:
                 fea_d = torch.zeros_like(self.spa_mask).repeat([1, self.d_out_num[index], 1, 1])
                 fea_d[0, :, self.h_idx_1x1, self.w_idx_1x1] = fea_s2ds[:self.d_out_num[index], :]
+                print(fea_d.size())
         else:
             fea_d = None
 
