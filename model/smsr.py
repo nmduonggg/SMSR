@@ -219,14 +219,14 @@ class SMB(nn.Module):
                     fea_d = fea_d2d
                     print(fea_d2d[0, :, self.h_idx_1x1, self.w_idx_1x1].size())
                     print(fea_s2ds[:self.d_out_num[index], :].size())
-                    print(fea_d.size())
+                    print(f"fea_d: {fea_d.size()}")
                 else:
                     fea_d = fea_d2d
-                    print(fea_d.size())
+                    print(f"fea_d: {fea_d.size()}")
             else:
                 fea_d = torch.zeros_like(self.spa_mask).repeat([1, self.d_out_num[index], 1, 1])
                 fea_d[0, :, self.h_idx_1x1, self.w_idx_1x1] = fea_s2ds[:self.d_out_num[index], :]
-                print(fea_d.size())
+                print(f"fea_d: {fea_d.size()}")
         else:
             fea_d = None
 
@@ -234,13 +234,13 @@ class SMB(nn.Module):
             if self.d_in_num[index] > 0:
                 if self.s_in_num[index] > 0:
                     fea_s = fea_d2s + fea_s2ds[ -self.s_out_num[index]:, :]
-                    print(fea_s.size())
+                    print(f"fea_s: {fea_s.size()}")
                 else:
                     fea_s = fea_d2s
-                    print(fea_s.size())
+                    print(f"fea_s: {fea_s.size()}")
             else:
                 fea_s = fea_s2ds[-self.s_out_num[index]:, :]
-                print(fea_s.size())
+                print(f"fea_s: {fea_s.size()}")
         else:
             fea_s = None
 
