@@ -177,6 +177,8 @@ class SMB(nn.Module):
         :param k: kernel size
         :param index: layer index
         '''
+        if k == 1: 
+            print("\n1x1 Convolution \n")
         # dense input
         if self.d_in_num[index] > 0:
             if self.d_out_num[index] > 0:
@@ -189,6 +191,7 @@ class SMB(nn.Module):
                     fea_col = fea_dense.view(self.d_in_num[index], -1)
                     fea_d2d = torch.mm(self.kernel_d2d[index].view(self.d_out_num[index], -1), fea_col)
                     fea_d2d = fea_d2d.view(1, self.d_out_num[index], fea_dense.size(2), fea_dense.size(3))
+                print(f"fea_col {index}: {fea_col.size()}")
                 print(f"fea_d2d {index}: {fea_d2d.size()}")
 
             if self.s_out_num[index] > 0:
@@ -244,7 +247,8 @@ class SMB(nn.Module):
         if fea_s is not None:
             print(f'sparse {index}: {fea_s.size()}')
         else:
-            print(f'sparse {index}: {0}')        
+            print(f'sparse {index}: {0}')   
+       
 
         return fea_d, fea_s
 
@@ -298,7 +302,7 @@ class SMB(nn.Module):
             fea_dense = torch.cat(fea_dense, 1)
             fea_sparse = torch.cat(fea_sparse, 0)
             out, _ = self._sparse_conv(fea_dense, fea_sparse, k=1, index=self.n_layers)
-
+            print("\n")
             return out
 
 
