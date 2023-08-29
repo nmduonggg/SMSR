@@ -187,6 +187,10 @@ class SMB(nn.Module):
                     fea_col = F.unfold(fea_dense, k, stride=1, padding=(k-1) // 2).squeeze(0)
                     fea_d2d = torch.mm(self.kernel_d2d[index].view(self.d_out_num[index], -1), fea_col)
                     fea_d2d = fea_d2d.view(1, self.d_out_num[index], fea_dense.size(2), fea_dense.size(3))
+
+                    fea_d2s_left = torch.mm(self.kernel_d2s[index].view(self.s_out_num[index], -1), fea_col)
+                    fea_d2s_left = fea_d2s_left.view(1, self.s_out_num[index], fea_dense.size(2), -1)
+                    print(f"fea_d2s_left {index}: {fea_d2s_left.size()}")
                 else:
                     fea_col = fea_dense.view(self.d_in_num[index], -1)
                     fea_d2d = torch.mm(self.kernel_d2d[index].view(self.d_out_num[index], -1), fea_col)
